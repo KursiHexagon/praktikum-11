@@ -1,0 +1,77 @@
+*{
+    margin: 0;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;background-color: #ecf0f1;
+}
+.hero{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+.hero button{
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+}
+
+#etalase{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: center;
+}
+#message{
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* Card Product */
+.card{
+    background-color: white;
+    padding: 20px;
+    height: 300px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-image{
+    max-height: 150px;
+    object-fit: contain;
+}
+
+.card-title{
+    color: black;
+    font-weight: bold;
+    max-height: 40px;
+    overflow: hidden;
+}
+
+.card-price{
+    font-weight: 800;
+    color: orange;
+}
+
+.delete-btn{
+    width: 100%;
+    background-color: red;
+    color: white;
+    transition: background-color 100ms ease-in;
+    border: none;
+    font-weight: bold;
+    padding: 10px 50px;
+}
+.delete-btn:hover{
+    background-color: darkred;
+}

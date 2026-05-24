@@ -1,0 +1,185 @@
+<!-- 2572027 - Silalahi, Lorenzo Julio Pardamean -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator - 2572027</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    
+    <header>
+        <h1>MovieSearch</h1>
+        <p>Cari film favorit kamu</p>
+    </header>
+
+    <main>
+        <div id="searchWrapper" class="search-wrapper">
+            <input type="text" id="search-input" placeholder="Cari judul film...">
+            <div id="suggestionBox"></div>
+            <button id="search-button">Cari</button>
+        </div>
+
+        <div id="recentSearchSection">
+            <p id="recentLabel">Pencarian terakhir:</p>
+            <div id="recentChips"></div>
+        </div>
+    
+        <!-- Menampilkan film list secara dinamis menggunakan javascript -->
+        <div class="film-list">
+            <h2 id="film-list-title"></h2>
+            <div id="filmResults"></div>
+        </div>
+
+    </main>
+
+    <script>
+        // Dummy film data
+        var movies = [
+            { title: 'Barbie', year: 2023, genre: 'Komedi', emoji: '💖' },
+            { title: 'Oppenheimer', year: 2023, genre: 'Drama', emoji: '💣' },
+            { title: 'Avatar', year: 2022, genre: 'Sci-Fi', emoji: '🌿' },
+        ];
+
+        // Array suggestion
+        var suggestions = [
+             'Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry', 'Fig', 'Grape', 'Honeydew'
+        ];
+
+        var recentSearch = [];
+
+        $(document).ready(function() {
+            // Fungsi menampilkann suggestion berdasarkan input (query)
+            function renderSuggestions(query){
+                $("#suggestionBox").empty();
+                
+                if (query.length === 0){
+                    $.each(recentSearch, function(i, item){
+                        var div = $('<div class="suggestion-item"></div>').text(item);
+                        var btn = $('<span class="btn-del"></span>').data('index', i).text('×');
+                        div.append(btn);
+                        $('#suggestionBox').append(div);
+                    });
+                } else {
+                    var matched = suggestions.filter(function(s){
+                        return s.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+                    });
+
+                    if (matched.length === 0){
+                        var notFound = $('<div class="suggestion-item not-found"></div>').text('Film tidak ditemukan');
+                        $('#suggestionBox').append(notFound);
+                    } else {
+                        $.each(matched, function(i, item){
+                            var div = $('<div class="suggestion-item"></div>').text(item);
+                            $('#suggestionBox').append(div);
+                        });
+                    }
+                }
+            };
+
+            function renderRecentChips(){
+                $('#recentChips').empty();
+                $.each(recentSearch, function(i, item){
+                    var chip = $('<span class="chip"></span>').text(item + ' ');
+                    var btn = $('<span class="btn-del-chip"></span>').data('index', i).text('×');
+                    chip.append(btn);
+                    $('#recentChips').append(chip);
+                });
+
+                if (recentSearch.length === 0){
+                    $('#recentSearchSection').hide();
+                } else {
+                    $('#recentSearchSection').show();
+                }
+            };
+
+            // Event listener untuk input pada search box
+            $('#search-input').on('input', function() {
+                var query = $.trim($(this).val());
+                renderSuggestions(query);
+                
+                // Hanya show jika query ada, atau recentSearch ada isinya
+                if (query.length > 0 || recentSearch.length > 0){
+                    $('#suggestionBox').show();
+                } else {
+                    $('#suggestionBox').hide();
+                }
+            });
+
+            
+            // Event listener saat menekan enter pada search box maka masukan ke dalam array (recentSearch)
+            $('#search-input').on('keypress', function(e) {
+                if (e.which === 13) {
+                    var query = $.trim($(this).val());
+                    if (query !== '') {
+                        if (suggestions.indexOf(query) === -1) suggestions.push(query);
+                        if (recentSearch.indexOf(query) === -1) recentSearch.unshift(query);
+                        $('#suggestionBox').hide();
+                        $(this).val('');
+                        renderRecentChips();
+                    }
+                };
+
+                // Cari film yang judulnya cocok dengan query
+                var results = movies.filter(function(m){
+                    return m.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+                });
+
+                // Update kalimat judul
+                if (results.length > 0){
+                    $('#film-list-title').html('Menampilkan <span class="highlight">' + results.length + ' film</span> untuk "<strong>' + query + '</strong>"');
+                } else {
+                    $('#film-list-title').text('Film tidak ditemukan untuk "' + query + '"');
+                }
+
+                // Kosongkan lalu render card
+                $('#filmResults').empty();
+                $.each(results, function(i, film){
+                    var card = $(
+                        '<div class="film-card">' +
+                            '<div class="film-emoji">' + film.emoji + '</div>' +
+                            '<div class="film-info">' +
+                                '<p class="film-title">' + film.title + '</p>' +
+                                '<p class="film-year">' + film.year + '</p>' +
+                                '<span class="film-genre">' + film.genre + '</span>' +
+                            '</div>' +
+                        '</div>'
+                    );
+                    $('#filmResults').append(card);
+                });
+            });
+
+            // Saat click di luar search wrapper, maka tutup suggestion box
+            $(document).on('click', function(event) {
+                var isInside = $(event.target).closest('#searchWrapper').length > 0;
+                if (!isInside) {
+                    $('#suggestionBox').hide();
+                }
+            });
+
+            // Menghapus item dari recent search 
+            $('#suggestionBox').on('click', '.btn-del', function(e) { 
+                e.stopPropagation();  
+                var index = parseInt($(this).data('index')); 
+                recentSearch.splice(index, 1); 
+                renderSuggestions(''); 
+            }); 
+
+            $('#recentChips').on('click', '.btn-del-chip', function(e){
+                e.stopPropagation();
+                var index = parseInt($(this).data('index'));
+                recentSearch.splice(index, 1);
+                renderRecentChips();
+            });
+
+
+        });
+
+
+        
+    </script>
+</body>
+
+</html>

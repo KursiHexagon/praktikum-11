@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    #etalase{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: center;
+    }
+    .card{
+    background-color: white;
+    padding: 20px;
+    }
+
+    .card-image{
+        max-height: 150px;
+        object-fit: contain;
+    }
+
+    .card-title{
+        color: black;
+        font-weight: 800;
+        max-height: 40px;
+        overflow: hidden;
+    }
+
+    .card-price{
+        font-weight: 800;
+        color: orange;
+    }
+
+    .delete-btn{
+        width: 100%;
+        background-color: red;
+        color: white;
+        transition: background-color 100ms ease-in;
+    }
+    .delete-btn:hover{
+        background-color: darkred;
+    }
+    </style>
+</head>
+<body>
+    <div id="etalase">
+        <div class="card">
+            <img src="#" class="card-image">
+            <p class="card-title">Testing</p>
+            <p>Rp 80000</p>
+            <button class="delete-btn">Delete</button>
+        </div>
+    </div>
+</body>
+</html>

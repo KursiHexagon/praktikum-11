@@ -1,0 +1,172 @@
+*{
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #111111;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    gap: 10px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+header p{
+    color:rgb(206, 206, 206);
+    font-size: 1rem;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-wrapper{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-wrapper input{
+    padding: 15px;
+    border: none;
+    width: 500px;
+}
+
+.search-wrapper input:focus{
+    outline: none;
+}
+
+.search-wrapper button{
+    padding: 15px;
+    border: none;
+    width: 64px;
+    background-color: red;
+    color: white;
+}
+
+#suggestionBox{
+    position: absolute;
+    top: 100%;       
+    padding: 10px 15px;
+    left: 0;
+    width: 564px;
+    background-color: white;
+    z-index: 100;
+    display: none;
+    gap: 10px;
+}
+
+
+.not-found{
+    color: #aaa;
+}
+
+#recentSearchSection{
+    display: none;
+    margin-top: 10px;
+    width: 595px;
+}
+
+#recentLabel{
+    color: #aaa;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+}
+
+#recentChips{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.chip{
+    background-color: #1C1C1C;
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #333 ;
+}
+
+.btn-del-chip{
+    cursor: pointer;
+    color: #aaa;
+}
+
+.highlight {
+    color: red;
+}
+
+.film-list {
+    width: 900px;
+    padding: 10px;
+}
+
+#film-list-title {
+    color: white;
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 20px 0;
+}
+
+#filmResults {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.film-card {
+    background-color: #222;
+    width: 200px;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.film-emoji {
+    background-color: #333;
+    font-size: 3rem;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.film-title {
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.film-year {
+    color: #aaa;
+    font-size: 0.8rem;
+}
+
+.film-genre {
+    background-color: #444;
+    color: white;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.film-info {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

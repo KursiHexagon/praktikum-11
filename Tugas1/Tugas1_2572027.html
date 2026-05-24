@@ -1,0 +1,68 @@
+<!-- 2572027 - Silalahi, Lorenzo Julio Pardamean -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etalase - 2572027</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="hero">
+        <h3>Made by 2572027</h3>
+        <button id="add-btn">Tambahkan produk acak</button>
+    </div>
+    
+        <p id="message">Belum ada produk di etalase.
+    Silakan tambah produk.</p>
+    <div id="etalase">
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            // Menyiapkan button tambahkan produk
+            const add = document.querySelector("#add-btn");
+            
+            // Menambahkan event listener
+            $("#add-btn").on("click", function() {
+                add.textContent = "Sedang memuat..."
+                
+                // Randomize nomor picture
+                noGambar = Math.floor(Math.random() * 50);
+                // Cek nomor gambar
+                console.log(noGambar)
+                
+                // Get API 
+                $.get("https://fakestoreapi.com/products/" + noGambar,
+                function(result){
+                    add.textContent = "Tambahkan produk acak";
+                    const message = document.querySelector("#message")
+                    message.style.display = "none";
+                    
+                    let result_div = "";
+                    result_div += "<div class='card'>";
+                        result_div += "<img src='" + result.image + "' class='card-image'>";
+                        result_div += "<p class='card-title'>" + result.title + "</p>";
+                        result_div += "<p class='card-price'>$" + result.price + "</p>";
+                        result_div += "<button class='delete-btn'> Hapus Produk </button>";
+                    result_div += "</div>";
+                        
+                        $("#etalase").append(result_div);
+                    }
+                );
+            });
+
+            // Untuk tombol hapus produk
+            $("#etalase").on("click", ".delete-btn", function() {
+                $(this).parent().remove();
+
+                // Validasi saat tidak ada card 
+                if ($("#etalase .card").length === 0) {
+                    $("#message").show();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
